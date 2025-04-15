@@ -1,0 +1,73 @@
+::selection {
+    background-color: hsl(171, 100%, 41%);
+    color: white;
+}
+::-moz-selection {
+    background-color: hsl(171, 100%, 41%);
+    color: white;
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: hsl(171, 100%, 41%);
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(171, 100%, 35%);
+}
+.activity-container, .music-container, .task-container {
+    position: relative;
+    min-height: calc(100vh - var(--navbar-height, 80px) - 20px);
+    display: flex;
+    justify-content: center;
+    background-image: url("../images/bg3.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 20px 0;
+    overflow-y: unset;
+}
+.columns.is-multiline {
+    width: 100%;
+    margin: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.column.is-4 {
+    flex: 0 0 calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+    margin: 0;
+}
+@media (max-width: 1200px) {
+    .column.is-4 {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+@media (max-width: 768px) {
+    .column.is-4 {
+        flex: 0 0 90%;
+        max-width: 400px;
+    }
+}
+.activity-card, .music-card {
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+.activity-card:hover, .music-card:hover {
+    transform: translateY(-5px);
+}
+.activity-image, .music-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+.activity-image img, .music-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

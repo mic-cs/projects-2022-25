@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block style_content %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index_2.css')}}" type="text/css">
+<style>
+     h1 {
+        color: white;
+        margin-bottom: 10px;
+    }
+    canvas {
+        background: black;
+        display: block; 
+    }
+</style>
+{% endblock %}
+{% block nav_content %}
+<div class="navbar-item is-flex-grow-1 is-flex is-justify-content-center">
+    <div class="has-text-primary has-text-centered u--pulse">
+      <p class="is-size-4 has-text-weight-semibold">Activity</p>
+      <p class="is-size-6 has-text-weight-medium">Emotion Match</p>
+    </div>
+</div>
+{% endblock %}
+{% block body_content %}
+<audio id="bgMusic" loop autoplay>
+    <source src="{{ url_for('static', filename='audio/neutral/Dolphin-esque - Godmode.mp3') }}" type="audio/mp3">
+</audio>
+<div class="game-container">
+    <canvas id="gameCanvas" class="u--bounce"></canvas>
+</div>
+{% endblock %}
+{% block script_content %}
+<script src="{{url_for('static', filename='scripts/js-confetti.browser.js')}}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const bgMusic = document.getElementById("bgMusic");
+        bgMusic.volume = 0.3; 
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                document.addEventListener("click", () => {
+                    bgMusic.play();
+                }, { once: true });
+            });
+        }
+    });
+    function resizeCanvas() {
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9; 
+        canvas.height = window.innerHeight * 0.75;
+    }
+    window.addEventListener("load", resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);    
+    const BACKGROUND_IMAGE_URL = "{{ url_for('static', filename='activity/A5/background.jpg') }}";
+    const EMOTION_URLS = {
+        Happy: "{{ url_for('static', filename='activity/A5/Happy.png') }}",
+        Sad: "{{ url_for('static', filename='activity/A5/Sad.png') }}",
+        Angry: "{{ url_for('static', filename='activity/A5/Angry.png') }}",
+        Surprise: "{{ url_for('static', filename='activity/A5/Surprise.png') }}",
+        Neutral: "{{ url_for('static', filename='activity/A5/Neutral.png') }}",
+        Fear: "{{ url_for('static', filename='activity/A5/Fear.png') }}"
+    };
+    const CORRECT_SOUND_URL = "{{ url_for('static', filename='activity/A5/correct.mp3') }}";
+    const WRONG_SOUND_URL = "{{ url_for('static', filename='activity/A5/wrong.mp3') }}";
+    const APPLAUSE_SOUND_URL = "{{ url_for('static', filename='audio/clap.mp3') }}";
+</script>
+<script src="{{url_for('static',filename='activity/A5/script.js')}}"></script>
+{% endblock %}

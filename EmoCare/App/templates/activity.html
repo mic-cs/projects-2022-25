@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block style_content %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index_3.css')}}" type="text/css">
+<link rel="stylesheet" href="{{url_for('static',filename='css/aos.css')}}" type="text/css">
+{% endblock %}
+{% block nav_content %}
+<div class="navbar-item is-flex-grow-1 is-flex is-justify-content-center">
+    <div class="has-text-primary has-text-centered u--pulse">
+      <p class="is-size-4 has-text-weight-semibold">Activities</p>
+      <p class="is-size-6 has-text-weight-medium">Select an activity</p>
+    </div>
+</div>
+{% endblock %}
+{% block body_content %}
+<div class="activity-container">
+    <div class="columns is-multiline is-centered m-4">
+        <div class="column is-4" data-aos="fade-up" data-aos-duration="1000">
+            <a href="{{ url_for('happy_page') }}" class="box p-0 activity-card">
+                <div class="activity-image">
+                    <img src="{{ url_for('static', filename='images/happy_activity.png') }}" alt="Happy Activity">
+                </div>
+                <div class="has-text-primary has-text-centered has-text-weight-semibold p-3">
+                    Water Penguin
+                </div>
+            </a>
+        </div>
+        <div class="column is-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <a href="{{ url_for('sad_page') }}" class="box p-0 activity-card">
+                <div class="activity-image">
+                    <img src="{{ url_for('static', filename='images/sad_activity.png') }}" alt="Sad Activity">
+                </div>
+                <div class="has-text-primary has-text-centered has-text-weight-semibold p-3">
+                    Breathe and Clap
+                </div>
+            </a>
+        </div>
+        <div class="column is-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            <a href="{{ url_for('angry_page') }}" class="box p-0 activity-card">
+                <div class="activity-image">
+                    <img src="{{ url_for('static', filename='images/angry_activity.png') }}" alt="Angry Activity">
+                </div>
+                <div class="has-text-primary has-text-centered has-text-weight-semibold p-3">
+                    Bubble Pop
+                </div>
+            </a>
+        </div>
+        <div class="column is-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <a href="{{ url_for('surprised_page') }}" class="box p-0 activity-card">
+                <div class="activity-image">
+                    <img src="{{ url_for('static', filename='images/surprised_activity.png') }}" alt="Surprised Activity">
+                </div>
+                <div class="has-text-primary has-text-centered has-text-weight-semibold p-3">
+                    Sound Surprise
+                </div>
+            </a>
+        </div>
+        <div class="column is-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            <a href="{{ url_for('neutral_page') }}" class="box p-0 activity-card">
+                <div class="activity-image">
+                    <img src="{{ url_for('static', filename='images/neutral_activity.png') }}" alt="Neutral Activity">
+                </div>
+                <div class="has-text-primary has-text-centered has-text-weight-semibold p-3">
+                    Emotion Match
+                </div>
+            </a>
+        </div>
+        <div class="column is-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+            <a href="{{ url_for('fear_page') }}" class="box p-0 activity-card">
+                <div class="activity-image">
+                    <img src="{{ url_for('static', filename='images/fear_activity.png') }}" alt="Fear Activity">
+                </div>
+                <div class="has-text-primary has-text-centered has-text-weight-semibold p-3">
+                    Coloring Page
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script_content %}
+<script src="{{ url_for('static', filename='scripts/aos.js') }}"></script>
+<script>
+    AOS.init({
+        offset: 120,
+        delay: 0, 
+        duration: 1000, 
+        easing: 'ease', 
+        once: true, 
+        mirror: false,
+    });
+</script>
+{% endblock %}
