@@ -1,0 +1,283 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>medicity</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="static/site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="static/css/magnific-popup.css">
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/themify-icons.css">
+    <link rel="stylesheet" href="static/css/nice-select.css">
+    <link rel="stylesheet" href="static/css/flaticon.css">
+    <link rel="stylesheet" href="static/css/gijgo.css">
+    <link rel="stylesheet" href="static/css/animate.css">
+    <link rel="stylesheet" href="static/css/slicknav.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- <link rel="stylesheet" href="static/css/responsive.css"> -->
+    <script>
+         function get_subcat(){
+            let cat=document.getElementById("cat").value;
+            let subcat=document.getElementById("subcat")
+            subcat.innerHTML=""
+            const locData=new FormData()
+            locData.append('c',cat)
+            fetch('http://127.0.0.1:8000/get_subcat',{
+                method:'POST',
+                body:locData,
+                headers:{
+                    'X-CSRFToken':'{{csrf_token}}',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                sbcat=document.getElementById("subcat")
+                var reciever=data['res']
+                let opt=document.createElement("option");
+                opt.innerHTML='--choose--';
+                subcat.appendChild(opt);
+                for(let rs in reciever){
+                    let opt=document.createElement("option");
+                    opt.value=rs;
+                    opt.textContent=reciever[rs];
+                    subcat.appendChild(opt);
+                }
+                
+                console.log(subcat);
+            })
+        }
+    </script>
+</head>
+
+<body style="overflow-x: hidden;">
+    <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="static/https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+
+    <!-- header-start -->
+    <header>
+        <div class="header-area ">
+            <div class="header-top_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6 ">
+                            <div class="social_media_links">
+                                <a href="static/#"style="pointer-events: none;">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                                <a href="static/#"style="pointer-events: none;">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="static/#"style="pointer-events: none;">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <div class="short_contact_list">
+                                <ul>
+                                    <li><a href="static/#"style="pointer-events: none;"> <i class="fa fa-envelope"></i> info@medicity.com</a></li>
+                                    <li><a href="static/#"style="pointer-events: none;"> <i class="fa fa-phone"></i> 160160</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sticky-header" class="main-header-area">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-3 col-lg-2">
+                            <div class="logo">
+                                <a href="static/index.html" style="pointer-events: none;">
+                                    <h3 style="color: green;"><img src="static/img/about/ab.jpg" alt="" style="width: 40px;height: 40px;">
+                                    M<span style="color: rgb(13, 166, 216);">EDICITY</span></h3>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a  href="userhome">User Home</a></li>
+                                        <li><a href="#">Search Doctors <i class="ti-angle-down"></i></a>
+                                            <ul class="submenu">
+                                                <li><a href="fdoc">By location</a></li>
+                                                <li><a href="sdoc">disease</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="smed1">Search Pharmacy</a></li>
+                                        <li><a href="dis_pr">Disease Prediction</a></li>
+                                        <li><a href="/">Logout</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->
+
+    <!-- bradcam_area_start  -->
+    <div class="bradcam_area breadcam_bg_2 bradcam_overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>SEARCH PHARMACY</h3>
+                        <p><a href="/">Home /</a> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- bradcam_area_end  -->
+
+    <!-- ================ contact section start ================= -->
+    <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-6">
+                        <h2 class="contact-title">Select Location</h2>
+                    </div>
+                    </div>
+                    <table style="position: relative;left: 100px;"><tr>
+                        <th>
+                        <form method="post">
+                           <table width="700px">
+                            <tr>
+                                <select name="dis" id="cat" onchange="get_subcat()" style="display: inline-block;">
+                                    <option>--choose district--</option>
+                                    {% for i in loc %}
+                                    <option value="{{i.0}}">{{i.1}}</option>
+                                    {% endfor %}
+                                </select><br><br>
+                            </tr>
+                            <tr>
+                                <select name="s" id="subcat" style="display: inline-block;">
+                                    <option>--choose--</option>
+                                </select><br><br>
+                            </tr>
+                            <tr>
+                                <input type="submit" class="btn btn-outline-primary btn-lg" style="width: 150px;" >
+                            </tr>
+                           </table>
+                            {% csrf_token %} 
+                            </form>
+                        </th>
+                            <th>
+                                <img src="static/img/about/im.jpg" alt="" width="400px" height="300px" style="position: relative;right: 200px;" >
+                            </th></tr>
+                        </table>
+                    </div>
+                </div>
+            {% if doc == None %}
+            <br><center><h3>NO DATA FOUND</h3></center>
+            {% elif  doc == 'no_data' %}
+            <h3></h3>
+            {% elif  doc %}
+            <div class="our_department_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="section_title text-center mb-55">
+                                <h3>Pharmacy</h3>
+                               </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <th></th>
+                                <th>NAME</th>
+                                <th>CONTACT</th>
+                                <th>EMAIL</th>
+                                <th>ADDRESS</th>
+                                <th>HOME DELIVERY</th>
+                                <th></th>
+                            </tr>
+                            {% for i in doc %}
+                            <tr>
+                                <td><img src="static/doc/{{i.5}}" alt="" style="width: 50px;height: 50px;border-radius: 50%;"></td>
+                                <td>
+                                    {{i.1}}<br>
+                                    {% if i.11 == 0 %}
+                                    <span style="font-size: 13px;color: red;">shop closed</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{i.2}}</td>
+                                <td>{{i.3}}</td>
+                                <td>{{i.8}}</td>
+                                {% if i.10 == 'y' %}
+                                <td><img src="static\img\about\delivery.png" alt="" style="width: 35px;height: 30px;"title="available"></td>
+                                {% else %}
+                                <td><h3><i class="bi bi-x-circle" style="color: red;" title="not available"></i></h2></td>
+                                {% endif %}
+                                <td><a href="snd_msg?mid={{i.0}}" style="color: rgb(49, 143, 169);" title="send message"><i class="bi bi-send-fill"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+           
+            
+            {% endif %}
+        </section>
+    <!-- ================ contact section end ================= -->
+    
+
+<!-- footer end  -->
+<!-- link that opens popup -->
+
+
+    
+        <!-- JS here -->
+        <script src="static/js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="static/js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="static/js/popper.min.js"></script>
+        <script src="static/js/bootstrap.min.js"></script>
+        <script src="static/js/owl.carousel.min.js"></script>
+        <script src="static/js/isotope.pkgd.min.js"></script>
+        <script src="static/js/ajax-form.js"></script>
+        <script src="static/js/waypoints.min.js"></script>
+        <script src="static/js/jquery.counterup.min.js"></script>
+        <script src="static/js/imagesloaded.pkgd.min.js"></script>
+        <script src="static/js/scrollIt.js"></script>
+        <script src="static/js/jquery.scrollUp.min.js"></script>
+        <script src="static/js/wow.min.js"></script>
+        <script src="static/js/nice-select.min.js"></script>
+        <script src="static/js/jquery.slicknav.min.js"></script>
+        <script src="static/js/jquery.magnific-popup.min.js"></script>
+        <script src="static/js/plugins.js"></script>
+        <script src="static/js/gijgo.min.js"></script>
+    
+        <!--contact js-->
+        <script src="static/js/contact.js"></script>
+        <script src="static/js/jquery.ajaxchimp.min.js"></script>
+        <script src="static/js/jquery.form.js"></script>
+        <script src="static/js/jquery.validate.min.js"></script>
+        <script src="static/js/mail-script.js"></script>
+    
+       
+    </body>
+    
+    </html>
