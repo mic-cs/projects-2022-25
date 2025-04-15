@@ -1,0 +1,25 @@
+Use a Conda Environment to have more than one python versions in a single System
+First Download Anaconda for windows
+
+// Conda create env_name
+// conda activate env_name
+
+Try to download all necessary modules inside the conda environment, It prevents version clashing within the main path.
+
+Python == 3.8.20     #Compulsory
+editdistance==0.5.2
+lmdb==1.0.0
+matplotlib==3.2.1
+numpy==1.19.5
+opencv-python==4.4.0.46 #Compulsory
+path==15.0.0
+tensorflow==2.4.0  #Compulsory
+
+
+
+To Run --
+In Anaconda Prompt, Go to the (SimpleHTR) then go to (src)
+
+Activate your environment
+
+then Run -> Python main.py
