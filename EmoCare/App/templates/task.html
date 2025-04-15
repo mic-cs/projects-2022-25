@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block style_content %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index_3.css')}}" type="text/css">
+<link rel="stylesheet" href="{{url_for('static',filename='css/aos.css')}}" type="text/css">
+<style>
+    .task-container {
+        display: flex;
+        gap: 2rem;
+        padding: 2rem;
+        min-height: calc(100vh - var(--navbar-height, 80px));
+    }
+    .task-column {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .column-title {
+        color: hsl(171, 100%, 41%);
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .task-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .task-item:hover {
+        transform: translateY(-2px);
+    }
+    .task-item img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    .task-item span {
+        font-size: 1.1rem;
+        color: #363636;
+    }
+    .task-item.completed {
+        opacity: 0.5;
+        text-decoration: line-through;
+    }
+</style>
+{% endblock %}
+{% block nav_content %}
+<div class="navbar-item is-flex-grow-1 is-flex is-justify-content-center">
+    <div class="has-text-primary has-text-centered u--pulse">
+      <p class="is-size-4 has-text-weight-semibold">Visual Schedules</p>
+      <p class="is-size-6 has-text-weight-medium">Select and complete your daily tasks</p>
+    </div>
+</div>
+{% endblock %}
+{% block body_content %}
+<div class="task-container">
+    <div class="task-column" id="available-tasks" data-aos="fade-right" data-aos-duration="1000">
+        <h2 class="column-title">Available Tasks</h2>
+    </div>
+    <div class="task-column" id="todo-list" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+        <h2 class="column-title">To-Do List</h2>
+    </div>
+</div>
+{% endblock %}
+{% block script_content %}
+<script src="{{ url_for('static', filename='scripts/aos.js') }}"></script>
+<script>
+    AOS.init({
+        offset: 120,
+        delay: 0,
+        duration: 1000,
+        easing: 'ease',
+        once: true,
+        mirror: false,
+    });
+    const tasks = [
+        { id: 1, name: 'Brush Teeth', image: '{{ url_for("static", filename="images/tasks/brush.png") }}' },
+        { id: 2, name: 'Take a Bath', image: '{{ url_for("static", filename="images/tasks/bath.jpg") }}' },
+        { id: 3, name: 'Eat Healthy Food', image: '{{ url_for("static", filename="images/tasks/breakfast.jpg") }}' },
+        { id: 4, name: 'Study Something', image: '{{ url_for("static", filename="images/tasks/study.png") }}' },
+        { id: 5, name: 'Listen to Music', image: '{{ url_for("static", filename="images/tasks/music.jpg") }}' },
+        { id: 6, name: 'Arrange Toys', image: '{{ url_for("static", filename="images/tasks/toy.jpg") }}' },
+        { id: 7, name: 'Get Dressed', image: '{{ url_for("static", filename="images/tasks/dress.webp") }}' },
+        { id: 8, name: 'Pack Bag', image: '{{ url_for("static", filename="images/tasks/bag.png") }}' },
+        { id: 9, name: 'Do Homework', image: '{{ url_for("static", filename="images/tasks/homework.jpg") }}' }
+    ];
+    let selectedTasks = new Set();
+    function saveTodoList() {
+        const todoData = Array.from(selectedTasks);
+        document.cookie = `todoList=${JSON.stringify(todoData)}; expires=${new Date(Date.now() + 86400000).toUTCString()}; path=/`;
+    }
+    function loadTodoList() {
+        const cookie = document.cookie.split('; ').find(row => row.startsWith('todoList='));
+        if (cookie) {
+            const todoData = JSON.parse(cookie.split('=')[1]);
+            selectedTasks = new Set(todoData);
+            todoData.forEach(taskId => {
+                const task = tasks.find(t => t.id === taskId);
+                if (task) {
+                    const todoItem = createTaskElement(task, true);
+                    document.getElementById('todo-list').appendChild(todoItem);
+                }
+            });
+        }
+    }
+    function createTaskElement(task, isTodo = false) {
+        const div = document.createElement('div');
+        div.className = 'task-item';
+        div.innerHTML = `
+            <img src="${task.image}" alt="${task.name}">
+            <span>${task.name}</span>
+        `;
+        if (!isTodo) {
+            div.onclick = () => {
+                if (!selectedTasks.has(task.id)) {
+                    selectedTasks.add(task.id);
+                    const todoItem = createTaskElement(task, true);
+                    document.getElementById('todo-list').appendChild(todoItem);
+                    saveTodoList(); 
+                }
+            };
+        } else {
+            div.onclick = () => {
+                div.classList.add('completed');
+                setTimeout(() => {
+                    div.remove();
+                    selectedTasks.delete(task.id);
+                    saveTodoList(); 
+                }, 500);
+            };
+        }
+        return div;
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const availableTasksContainer = document.getElementById('available-tasks');
+        tasks.forEach(task => {
+            availableTasksContainer.appendChild(createTaskElement(task));
+        });
+        loadTodoList(); 
+    });
+</script>
+{% endblock %}

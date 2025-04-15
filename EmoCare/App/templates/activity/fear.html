@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block style_content %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index_2.css')}}" type="text/css">
+<style>
+    h1 {
+        color: white;
+        margin-bottom: 10px;
+    }
+    #coloringArea {
+        background: white;
+        display: block;
+        position: relative;
+        padding-top: 40px;
+    }
+    svg {
+        width: 100%;
+        height: calc(100% - 40px);
+        margin-top: 10px;
+        display: none; 
+    }
+    svg.active {
+        display: block; 
+    }
+    .fl-colorable {
+        fill: white;
+        stroke: black;
+        stroke-width: 4;
+        cursor: pointer;
+    }
+    .fl-colorable.stroke {
+        fill: none;
+    }
+    .instruction-text {
+        position: absolute;
+        width: 100%;
+        top: 15px;
+        left: 0;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #666;
+        pointer-events: none;
+    }
+</style>
+{% endblock %}
+{% block nav_content %}
+<div class="navbar-item is-flex-grow-1 is-flex is-justify-content-center">
+    <div class="has-text-primary has-text-centered u--pulse">
+      <p class="is-size-4 has-text-weight-semibold">Activity</p>
+      <p class="is-size-6 has-text-weight-medium">Coloring Page</p>
+    </div>
+</div>
+{% endblock %}
+{% block body_content %}
+<audio id="bgMusic" loop autoplay>
+    <source src="{{ url_for('static', filename='audio/fear/Nocturnally - Amulets.mp3') }}" type="audio/mp3">
+</audio>
+<div class="game-container">
+    <div id="coloringArea" class="u--bounce">
+        <div class="instruction-text">Click to Colour!</div>
+        <svg viewBox="0 0 500 500" class="emoji active" data-emotion="happy">
+            <circle class="fl-colorable" cx="250" cy="250" r="179"/>
+            <circle class="fl-colorable" cx="173.5" cy="198.5" r="16.5"/>
+            <circle class="fl-colorable" cx="326.5" cy="198.5" r="16.5"/>
+            <path class="fl-colorable stroke" d="M134.5 293C138.167 322.833 166.2 382.5 249 382.5C331.8 382.5 362.833 322.833 368 293"/>
+        </svg>
+        <svg viewBox="0 0 500 500" class="emoji" data-emotion="sad">
+            <circle class="fl-colorable" cx="250" cy="250" r="179"/>
+            <circle class="fl-colorable" cx="173.5" cy="198.5" r="16.5"/>
+            <circle class="fl-colorable" cx="326.5" cy="198.5" r="16.5"/>
+            <path class="fl-colorable stroke" d="M134.5 382.5C138.167 352.667 166.2 293 249 293C331.8 293 362.833 352.667 368 382.5"/>
+        </svg>
+        <svg viewBox="0 0 500 500" class="emoji" data-emotion="angry">
+            <circle class="fl-colorable" cx="250" cy="250" r="179"/>
+            <circle class="fl-colorable" cx="173.5" cy="198.5" r="16.5"/>
+            <circle class="fl-colorable" cx="326.5" cy="198.5" r="16.5"/>
+            <path class="fl-colorable stroke" d="M134.5 382.5L249 293L368 382.5"/>
+            <path class="fl-colorable stroke" d="M173.5 160L200 170"/>
+            <path class="fl-colorable stroke" d="M326.5 160L300 170"/>
+        </svg>
+        <svg viewBox="0 0 500 500" class="emoji" data-emotion="neutral">
+            <circle class="fl-colorable" cx="250" cy="250" r="179"/>
+            <circle class="fl-colorable" cx="173.5" cy="198.5" r="16.5"/>
+            <circle class="fl-colorable" cx="326.5" cy="198.5" r="16.5"/>
+            <path class="fl-colorable stroke" d="M134.5 330H368"/>
+        </svg>
+        <svg viewBox="0 0 500 500" class="emoji" data-emotion="surprise">
+            <circle class="fl-colorable" cx="250" cy="250" r="179"/>
+            <circle class="fl-colorable" cx="173.5" cy="198.5" r="16.5"/>
+            <circle class="fl-colorable" cx="326.5" cy="198.5" r="16.5"/>
+            <circle class="fl-colorable" cx="250" cy="350" r="40"/>
+        </svg>
+        <svg viewBox="0 0 500 500" class="emoji" data-emotion="disgust">
+            <circle class="fl-colorable" cx="250" cy="250" r="179"/>
+            <circle class="fl-colorable" cx="173.5" cy="198.5" r="16.5"/>
+            <circle class="fl-colorable" cx="326.5" cy="198.5" r="16.5"/>
+            <path class="fl-colorable stroke" d="M134.5 330C180 280 220 310 250 330C280 350 320 280 368 330"/>
+        </svg>
+    </div>
+</div>
+{% endblock %}
+{% block script_content %}
+<script src="{{url_for('static', filename='scripts/js-confetti.browser.js')}}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const bgMusic = document.getElementById("bgMusic");
+        bgMusic.volume = 0.3; 
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                document.addEventListener("click", () => {
+                    bgMusic.play();
+                }, { once: true });
+            });
+        }
+    });
+    function resizeColoringArea() {
+        const coloringArea = document.getElementById("coloringArea");
+        coloringArea.style.width = window.innerWidth * 0.9 + 'px';
+        coloringArea.style.height = window.innerHeight * 0.75 + 'px';
+    }
+    window.addEventListener("load", resizeColoringArea);
+    window.addEventListener("resize", resizeColoringArea);
+    const SPLASH_SOUND_URL = "{{ url_for('static', filename='activity/A6/splash.mp3') }}";
+    const APPLAUSE_SOUND_URL = "{{ url_for('static', filename='audio/clap.mp3') }}";
+</script>
+<script src="{{url_for('static',filename='activity/A6/script.js')}}"></script>
+{% endblock %}

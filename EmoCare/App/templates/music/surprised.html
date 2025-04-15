@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% block style_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index_3.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/aos.css') }}" type="text/css">
+<style>
+    .music-play-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        margin-left: 1rem;
+        transition: transform 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+    }
+    .music-play-btn svg {
+        fill: hsl(171, 100%, 41%);
+        width: 32px;
+        height: 32px;
+    }
+    .music-text-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .music-play-btn:hover {
+        transform: scale(1.1);
+    }
+    .music-play-btn:focus {
+        outline: none;
+    }
+    .music-grid {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-y: unset;
+        box-sizing: border-box;
+    }
+    .music-card-wrapper {
+        flex: 0 0 calc(33.333% - 40px);
+        margin: 20px;
+        box-sizing: border-box;
+    }
+    @media (max-width: 768px) {
+        .music-card-wrapper {
+            flex: 0 0 calc(100% - 40px);
+        }
+    }
+</style>
+{% endblock %}
+{% block nav_content %}
+<div class="navbar-item is-flex-grow-1 is-flex is-justify-content-center">
+    <div class="has-text-primary has-text-centered u--pulse">
+        <p class="is-size-4 has-text-weight-semibold">Surprised Music</p>
+        <p class="is-size-6 has-text-weight-medium">Select a song to play</p>
+    </div>
+</div>
+{% endblock %}
+{% block body_content %}
+<div style="display: none;">
+    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+        <path d="M15 8a1 1 0 0 0-1 1v6a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1z"/>
+        <path d="M9 8a1 1 0 0 0-1 1v6a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1z"/>
+    </svg>
+    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+        <path d="M12.34 7.45a1.7 1.7 0 0 0-1.85-.3 1.6 1.6 0 0 0-1 1.48v6.74a1.6 1.6 0 0 0 1 1.48 1.68 1.68 0 0 0 .69.15 1.74 1.74 0 0 0 1.16-.45L16 13.18a1.6 1.6 0 0 0 0-2.36zm-.84 7.15V9.4l2.81 2.6z"/>
+    </svg>
+</div>
+<div class="music-container">
+    <div class="music-grid">
+        <div class="music-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+            <div class="box p-0 music-card">
+                <div class="music-image">
+                    <img src="{{ url_for('static', filename='images/surprised_art.jpg') }}" alt="Surprised Music">
+                </div>
+                <div class="music-text-container has-text-weight-semibold p-3">
+                    Best Besties
+                    <button class="music-play-btn" onclick="togglePlay(this, 'Best_Besties')">
+                        <svg class="play-icon" width="32" height="32"></svg>
+                    </button>
+                </div>
+                <audio id="Best_Besties" src="{{ url_for('static', filename='audio/surprised/Best Besties - The Soundlings.mp3') }}"></audio>
+            </div>
+        </div>
+        <div class="music-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <div class="box p-0 music-card">
+                <div class="music-image">
+                    <img src="{{ url_for('static', filename='images/surprised_art.jpg') }}" alt="Surprised Music">
+                </div>
+                <div class="music-text-container has-text-weight-semibold p-3">
+                    Dark Elves
+                    <button class="music-play-btn" onclick="togglePlay(this, 'Dark_Elves')">
+                        <svg class="play-icon" width="32" height="32"></svg>
+                    </button>
+                </div>
+                <audio id="Dark_Elves" src="{{ url_for('static', filename='audio/surprised/Dark Elves - Jimena Contreras.mp3') }}"></audio>
+            </div>
+        </div>
+        <div class="music-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            <div class="box p-0 music-card">
+                <div class="music-image">
+                    <img src="{{ url_for('static', filename='images/surprised_art.jpg') }}" alt="Surprised Music">
+                </div>
+                <div class="music-text-container has-text-weight-semibold p-3">
+                    Lift Up
+                    <button class="music-play-btn" onclick="togglePlay(this, 'Lift_Up')">
+                        <svg class="play-icon" width="32" height="32"></svg>
+                    </button>
+                </div>
+                <audio id="Lift_Up" src="{{ url_for('static', filename='audio/surprised/Lift Up - Mini Vandals.mp3') }}"></audio>
+            </div>
+        </div>
+        <div class="music-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            <div class="box p-0 music-card">
+                <div class="music-image">
+                    <img src="{{ url_for('static', filename='images/surprised_art.jpg') }}" alt="Surprised Music">
+                </div>
+                <div class="music-text-container has-text-weight-semibold p-3">
+                    Sigma Slide
+                    <button class="music-play-btn" onclick="togglePlay(this, 'Sigma_Slide')">
+                        <svg class="play-icon" width="32" height="32"></svg>
+                    </button>
+                </div>
+                <audio id="Sigma_Slide" src="{{ url_for('static', filename='audio/surprised/Sigma Slide - The Soundlings.mp3') }}"></audio>
+            </div>
+        </div>
+        <div class="music-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">
+            <div class="box p-0 music-card">
+                <div class="music-image">
+                    <img src="{{ url_for('static', filename='images/surprised_art.jpg') }}" alt="Surprised Music">
+                </div>
+                <div class="music-text-container has-text-weight-semibold p-3">
+                    Sweet Math
+                    <button class="music-play-btn" onclick="togglePlay(this, 'Sweet_Math')">
+                        <svg class="play-icon" width="32" height="32"></svg>
+                    </button>
+                </div>
+                <audio id="Sweet_Math" src="{{ url_for('static', filename='audio/surprised/Sweet Math - Mini Vandals.mp3') }}"></audio>
+            </div>
+        </div>
+        <div class="music-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+            <div class="box p-0 music-card">
+                <div class="music-image">
+                    <img src="{{ url_for('static', filename='images/surprised_art.jpg') }}" alt="Surprised Music">
+                </div>
+                <div class="music-text-container has-text-weight-semibold p-3">
+                    The Movement of India
+                    <button class="music-play-btn" onclick="togglePlay(this, 'The_Movement_of_India')">
+                        <svg class="play-icon" width="32" height="32"></svg>
+                    </button>
+                </div>
+                <audio id="The_Movement_of_India" src="{{ url_for('static', filename='audio/surprised/The Movement of India - Aakash Gandhi.mp3') }}"></audio>
+            </div>
+        </div>                      
+    </div>
+</div>
+{% endblock %}
+{% block script_content %}
+<script src="{{ url_for('static', filename='scripts/aos.js') }}"></script>
+<script>
+    AOS.init({
+        offset: 120,
+        delay: 0,
+        duration: 1000,
+        easing: 'ease',
+        once: true,
+        mirror: false,
+    });
+    let currentlyPlaying = null;
+    let currentButton = null;
+    const playIconTemplate = document.getElementById('play-icon').outerHTML;
+    const pauseIconTemplate = document.getElementById('pause-icon').outerHTML;
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.music-play-btn svg').forEach(icon => {
+            icon.outerHTML = playIconTemplate;
+        });
+    });
+    function togglePlay(button, audioId) {
+        const audio = document.getElementById(audioId);
+        const icon = button.querySelector('svg');
+        if (currentlyPlaying && currentlyPlaying !== audio) {
+            currentlyPlaying.pause();
+            currentlyPlaying.currentTime = 0;
+            if (currentButton) {
+                currentButton.querySelector('svg').outerHTML = playIconTemplate;
+            }
+        }
+        if (audio.paused) {
+            audio.play();
+            icon.outerHTML = pauseIconTemplate;
+            currentlyPlaying = audio;
+            currentButton = button;
+        } else {
+            audio.pause();
+            icon.outerHTML = playIconTemplate;
+            currentlyPlaying = null;
+            currentButton = null;
+        }
+    }
+</script>
+{% endblock %}

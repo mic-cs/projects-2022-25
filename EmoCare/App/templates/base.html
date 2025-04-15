@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>EmoCare</title>
+        <link rel="stylesheet" href="{{url_for('static',filename='css/bulma.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{url_for('static',filename='css/attention.css')}}" type="text/css">
+        {% block style_content %} {% endblock %}
+        <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Flickson J, Fiza Fariya, Anandhu J, Mohammed Nihal">
+		<link rel="shortcut icon" href="{{url_for('static',filename='images/favicon.ico')}}" type="image/x-icon">
+    </head>
+    <body>
+        <nav class="navbar">
+		  <div class="navbar-brand is-flex is-align-items-center" style="width: 100%;">
+		    <a class="navbar-item u--pulse" href="{{url_for('index')}}">
+		      <img src="{{url_for('static', filename='images/logo.png')}}" alt="EmoCare Logo" style="max-height:80px" class="py-2 px-2">
+		    </a>
+			{% block nav_content %} 
+			{% endblock %}
+		    <div class="navbar-item is-hidden-touch">
+		      <div class="buttons">
+		        <a class="button is-primary u--flash u--flash-1" href="{{ url_for('activity_page') }}">Activities</a>
+		        <a class="button is-primary u--flash u--flash-2" href="{{ url_for('music_page') }}">Music</a>
+		        <a class="button is-primary u--flash u--flash-3" href="{{ url_for('task_page') }}">Tasks</a>
+		      </div>
+		    </div>
+		    <a role="button" class="navbar-burger has-text-primary u--pulse" aria-label="menu" aria-expanded="false" data-target="navMenu" onclick="toggleNavbar()">
+		      <span aria-hidden="true"></span>
+		      <span aria-hidden="true"></span>
+		      <span aria-hidden="true"></span>
+		    </a>
+		  </div>
+		  <div id="navMenu" class="navbar-menu">
+		    <div class="navbar-end is-hidden-desktop">
+		      <div class="navbar-item is-flex is-justify-content-center">
+		        <div class="buttons">
+		          <a class="button is-primary" href="{{ url_for('activity_page') }}">Activities</a>
+		          <a class="button is-primary" href="{{ url_for('music_page') }}">Music</a>
+		          <a class="button is-primary" href="{{ url_for('task_page') }}">Tasks</a>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</nav>
+		{% block body_content %}
+		{% endblock %}
+		<script>
+		  function toggleNavbar() {
+		    var nav = document.getElementById("navMenu");
+		    var burger = document.querySelector(".navbar-burger");
+		    nav.classList.toggle("is-active");
+		    burger.classList.toggle("is-active");
+		  }
+		  const emotionImages = [
+		    { 
+		        emotion: "Happy", 
+		        imageUrl: "{{ url_for('static', filename='images/Happy.gif') }}", 
+		        activityUrl: "{{ url_for('happy_page') }}"  
+		    },
+		    { 
+		        emotion: "Sad", 
+		        imageUrl: "{{ url_for('static', filename='images/Sad.gif') }}", 
+		        activityUrl: "{{ url_for('sad_page') }}"  
+		    },
+		    { 
+		        emotion: "Angry", 
+		        imageUrl: "{{ url_for('static', filename='images/Angry.gif') }}", 
+		        activityUrl: "{{ url_for('angry_page') }}"  
+		    },
+		    { 
+		        emotion: "Surprised", 
+		        imageUrl: "{{ url_for('static', filename='images/Surprised.gif') }}", 
+		        activityUrl: "{{ url_for('surprised_page') }}"  
+		    },
+		    { 
+		        emotion: "Neutral", 
+		        imageUrl: "{{ url_for('static', filename='images/Neutral.gif') }}", 
+		        activityUrl: "{{ url_for('neutral_page') }}"  
+		    },
+		    { 
+		        emotion: "Fear", 
+		        imageUrl: "{{ url_for('static', filename='images/Fear.gif') }}", 
+		        activityUrl: "{{ url_for('fear_page') }}"  
+		    }
+		];
+		</script>
+		{% block script_content %}
+		{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,241 @@
+body{
+    background-color: #fff;
+}
+::selection {
+  background-color: hsl(171, 100%, 41%);
+  color: white;
+}
+::-moz-selection {
+  background-color: hsl(171, 100%, 41%);
+  color: white;
+}
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(171, 100%, 41%);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(171, 100%, 35%);
+}
+.navbar{
+  display: none;
+}
+.navbar-menu{
+	box-shadow: none;
+}
+.video-container{
+  position: absolute;
+  top: calc(var(--navbar-height, 80px) + 20px); 
+  left: 0;
+  right: 0;
+  bottom: 0; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../images/bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.video-container{
+  display: none;
+}
+.video-cam {
+  max-height: calc(100% - 40px);
+  max-width: calc(100% - 40px);
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+}
+#bgAudio{
+	display: none;
+}
+.u--flash-1{
+  animation-delay:0.1s;
+}
+.u--flash-1{
+  animation-delay:0.2s;
+}
+.u--flash-1{
+  animation-delay:0.3s;
+}
+.loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    background-image: url("bg.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.logo {
+    width: 40vw;
+    max-width: 200px;
+    min-width: 100px;
+    margin-bottom: 20px;
+}
+.lds-ellipsis,
+.lds-ellipsis div {
+  box-sizing: border-box;
+}
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33.33333px;
+  width: 13.33333px;
+  height: 13.33333px;
+  border-radius: 50%;
+  background: #00d1b2;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 70vw;
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+.box {
+    padding: 20px;
+    border-radius: 10px;
+}
+#detectedEmotionGif {
+    max-width: 100px;
+    height: auto;
+}
+.emotion-choice {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    transition: box-shadow 0.2s ease-in-out;
+    text-align: center;
+}
+.emotion-choice:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#otherEmotionsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+#otherEmotionsGrid img {
+    max-width: 40px;
+    height: auto;
+}
+#otherEmotionsGrid p {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+#countdown {
+    color: #00d1b2;
+    font-weight: bold;
+}
+#countdown-number {
+    color: #ff3860;
+    font-size: 1.2em;
+}
+.modal {
+    padding: 10px;
+}
+#otherEmotionsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px;
+    justify-items: stretch; 
+    align-items: stretch; 
+    width: 100%; 
+    max-width: 600px; 
+    margin: 0 auto; 
+}
+.emotion-choice {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 16px; 
+    transition: box-shadow 0.2s ease-in-out;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    min-width: 100px; 
+    min-height: 100px; 
+    width: 100%; 
+    height: 100%; 
+}
+.emotion-choice:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#otherEmotionsGrid img {
+    max-width: 40px;
+    height: auto;
+}
+#otherEmotionsGrid p {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+@media (max-width: 768px) {
+    #otherEmotionsGrid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+@media (max-width: 480px) {
+    #otherEmotionsGrid {
+        grid-template-columns: 1fr; 
+    }
+}

@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% block style_content %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index_1.css')}}" type="text/css">
+{% endblock %}
+{% block nav_content %}
+<div class="navbar-item is-flex-grow-1 is-flex is-justify-content-center">
+    <div class="has-text-primary has-text-centered u--pulse">
+      <p class="is-size-4 has-text-weight-semibold">👋 Hello there!</p>
+      <p class="is-size-6 has-text-weight-medium">Please look at the camera</p>
+    </div>
+</div>
+{% endblock %}
+{% block body_content %}
+<div class="loading-screen">
+    <img src="{{url_for('static', filename='images/Logo.png')}}" alt="EmoCare Logo" class="u--pulse logo">
+    <div class="lds-ellipsis">
+        <div></div><div></div><div></div><div></div>
+    </div>
+</div>
+<div class="video-container">
+	<div class="lds-ellipsis">
+        <div></div><div></div><div></div><div></div>
+    </div>
+  <img class="video-cam u--pulse" id="video-stream" src="">
+</div>
+<audio id="bgAudio" autoplay>
+  <source src="{{url_for('static', filename='audio/welcome.mp3')}}" type="audio/mp3">
+</audio>
+<div class="modal" id="emotionModal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            <div class="has-text-centered">
+                <h2 class="title is-5 u--pulse">Detected Emotion</h2>
+                <img id="detectedEmotionGif" src="" alt="Detected Emotion">
+                <p id="detectedEmotionText" class="is-size-4 has-text-weight-semibold mt-2"></p>
+                <p id="countdown" class="is-size-5 has-text-weight-semibold mt-2">Loading Activity in <span id="countdown-number">10</span> seconds...</p>
+            </div>
+            <div class="has-text-centered mt-4">
+                <p id="chooseEmotionText" class="is-size-6 has-text-weight-semibold"></p>
+                <div id="otherEmotionsGrid">
+                </div>
+            </div>
+            <div class="has-text-centered mt-4">
+                <button id="reloadButton" class="button is-primary u--pulse">Detect Again</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script_content %}
+<script>
+	 function adjustVideoPosition() {
+	 var navbar = document.querySelector(".navbar");
+	 if (navbar) {
+	   var navbarHeight = navbar.offsetHeight;
+	   document.documentElement.style.setProperty("--navbar-height", navbarHeight + "px");
+	  }
+	}
+	window.addEventListener("load", adjustVideoPosition);
+	window.addEventListener("resize", adjustVideoPosition);
+	document.addEventListener("DOMContentLoaded", function () {
+	    var audio = document.getElementById("bgAudio");
+	    var playPromise = audio.play();
+	    if (playPromise !== undefined) {
+	        playPromise.catch(() => {
+	            document.addEventListener("click", function () {
+	                audio.play();
+	            }, { once: true });
+	        });
+	    }
+	});
+	window.addEventListener("load", function(){
+		setTimeout(function(){
+			document.querySelector(".loading-screen").style.display="none";
+			document.querySelector(".video-container").style.display="flex";
+			document.querySelector(".navbar").style.display="block";
+			var videoImg = document.getElementById("video-stream");
+			var spinner = document.querySelector(".video-container .lds-ellipsis")
+			spinner.style.display = "block";
+			videoImg.src = "/video_feed";
+		   	videoImg.onload=function(){
+			   	spinner.style.display = "none";
+			}
+			window.dispatchEvent(new Event('resize')); 
+		},4000);
+	});
+	document.addEventListener('DOMContentLoaded', function () {
+    const emotionModal = document.getElementById('emotionModal');
+    const detectedEmotionText = document.getElementById('detectedEmotionText');
+    const detectedEmotionGif = document.getElementById('detectedEmotionGif');
+    const chooseEmotionText = document.getElementById('chooseEmotionText');
+    const otherEmotionsGrid = document.getElementById('otherEmotionsGrid');
+    const modalBackground = document.querySelector('.modal-background');
+    const reloadButton = document.getElementById('reloadButton');
+    let countdownInterval; 
+    function playEmotionAudio(emotion) {
+        if (emotion.toLowerCase() === 'neutral') return; 
+        const audio = new Audio(`{{ url_for('static', filename='audio/') }}EmoCare ${emotion} Flickson.mp3`);
+        audio.play().catch(error => {
+            console.log('Audio playback failed:', error);
+        });
+    }
+    function fetchDominantEmotion() {
+        const reset = !window.hasDetectionStarted;
+        fetch(`/get_emotion?reset=${reset}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const detectedEmotion = data.emotion;
+                    const detectedEmotionData = emotionImages.find(item => item.emotion === detectedEmotion);
+                    if (detectedEmotionData) {
+                        detectedEmotionGif.src = detectedEmotionData.imageUrl;
+                        detectedEmotionText.textContent = detectedEmotion;
+                        playEmotionAudio(detectedEmotion);
+                        startCountdown(detectedEmotionData.activityUrl);
+                    } else {
+                        detectedEmotionGif.src = "";
+                        detectedEmotionText.textContent = "No GIF found for this emotion.";
+                    }
+                    chooseEmotionText.textContent = `Not ${detectedEmotion}? Choose your emotion`;
+                    otherEmotionsGrid.innerHTML = ""; 
+                    emotionImages
+                        .filter(item => item.emotion !== detectedEmotion) 
+                        .forEach(item => {
+                            const emotionDiv = document.createElement('div');
+                            emotionDiv.className = "column is-one-third";
+                            emotionDiv.innerHTML = `
+                                <div class="has-text-centered emotion-choice" data-emotion="${item.emotion}" data-activity-url="${item.activityUrl}">
+                                    <img src="${item.imageUrl}" alt="${item.emotion}" style="max-width: 40px; height: auto; cursor: pointer;">
+                                    <p class="is-size-6 has-text-weight-semibold mt-1">${item.emotion}</p>
+                                </div>
+                            `;
+                            otherEmotionsGrid.appendChild(emotionDiv);
+                        });
+                    document.querySelectorAll('.emotion-choice').forEach(choice => {
+                        choice.addEventListener('click', () => {
+                            const activityUrl = choice.getAttribute('data-activity-url');
+                            window.location.href = activityUrl; 
+                        });
+                    });
+                    emotionModal.classList.add('is-active');
+                } else if (data.status === 'waiting') {
+                    setTimeout(fetchDominantEmotion, 1000); 
+                } else if (data.status === 'failed') {
+                    detectedEmotionGif.src = "";
+                    detectedEmotionText.textContent = "No emotion detected";
+                    chooseEmotionText.textContent = "Choose your emotion";
+                    otherEmotionsGrid.innerHTML = ""; 
+                    emotionImages.forEach(item => {
+                        const emotionDiv = document.createElement('div');
+                        emotionDiv.className = "column is-one-third";
+                        emotionDiv.innerHTML = `
+                            <div class="has-text-centered emotion-choice" data-emotion="${item.emotion}" data-activity-url="${item.activityUrl}">
+                                <img src="${item.imageUrl}" alt="${item.emotion}" style="max-width: 40px; height: auto; cursor: pointer;">
+                                <p class="is-size-6 has-text-weight-semibold mt-1">${item.emotion}</p>
+                            </div>
+                        `;
+                        otherEmotionsGrid.appendChild(emotionDiv);
+                    });
+                    document.querySelectorAll('.emotion-choice').forEach(choice => {
+                        choice.addEventListener('click', () => {
+                            const activityUrl = choice.getAttribute('data-activity-url');
+                            window.location.href = activityUrl; 
+                        });
+                    });
+                    emotionModal.classList.add('is-active');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching emotion:', error);
+            });
+        window.hasDetectionStarted = true;
+    }
+    function startCountdown(activityUrl) {
+        let countdown = 10; 
+        const countdownElement = document.getElementById('countdown-number');
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+        }
+        countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                clearInterval(countdownInterval); 
+                window.location.href = activityUrl; 
+            }
+        }, 1000); 
+    }
+    reloadButton.addEventListener('click', () => {
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+        }
+        detectedEmotionGif.src = "";
+        detectedEmotionText.textContent = "";
+        chooseEmotionText.textContent = "";
+        otherEmotionsGrid.innerHTML = "";
+        emotionModal.classList.remove('is-active');
+        window.hasDetectionStarted = false;
+        fetchDominantEmotion();
+    });
+    fetchDominantEmotion();
+    modalBackground.addEventListener('click', () => {
+        emotionModal.classList.remove('is-active');
+    });
+});
+</script>
+{% endblock %}
