@@ -1,0 +1,11 @@
+[package]
+name = "solana_program"
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+solana-program = "1.14.11"  # adjust version as needed
+

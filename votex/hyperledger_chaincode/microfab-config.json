@@ -1,0 +1,18 @@
+{
+  "network": {
+    "name": "fabric-network",
+    "orderer": {
+      "url": "localhost:7050"
+    },
+    "peer": {
+      "url": "localhost:7051"
+    }
+  },
+  "chaincode": {
+    "name": "voting_chaincode",
+    "version": "1.0",
+    "language": "golang",
+    "path": "./hyperledger_chaincode",
+    "channel": "mychannel"
+  }
+}
