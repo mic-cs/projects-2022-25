@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Letters and Images{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container my-5">
+    <div class="row">
+
+        <div class="col-md-4" style="position: sticky; top: 20px; height: 80vh;">
+            <h3 class="text-center">Letters</h3>
+            <ul class="list-group overflow-auto" style="max-height: 55vh;">
+                {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                    <li class="list-group-item" id="letter-{{ letter }}" onclick="showImage('{{ letter }}')">
+                        {{ letter }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-md-8">
+            <h3 class="text-center">Images</h3>
+            <div id="image-display" class="d-flex justify-content-center align-items-center" style="min-height: 400px;">
+                <p id="default-message" class="text-center" style="color: black;">Select any letter</p>
+                <img src="" alt="Select a letter to view image" id="letter-image" class="img-fluid" style="max-height: 300px; display: none;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showImage(letter) {
+        const letterImage = document.getElementById("letter-image");
+        const defaultMessage = document.getElementById("default-message");
+        
+        
+        letterImage.src = "{% static 'images/' %}" + letter + ".jpg";
+        letterImage.style.display = 'block'; 
+        
+        
+        defaultMessage.style.display = 'none'; 
+    }
+</script>
+
+<style>
+    .list-group-item {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        color: black;
+        text-align: center;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    #image-display {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        background-color: #f8f9fa;
+    }
+
+    .overflow-auto {
+        overflow-y: auto;
+    }
+
+    .list-group::-webkit-scrollbar {
+        display: none;
+    }
+
+    body::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+{% endblock %}

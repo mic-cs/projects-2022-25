@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row d-flex justify-content-center">
+
+
+        <div class="col-md-4">
+            <div class="card mb-4 clickable-card" onclick="window.location.href='https://www.ndcs.org.uk/information-and-support/language-and-communication/sign-language/what-is-sign-language/'">
+                <img src="{% static 'images/visit1.png' %}" class="card-img-top" alt="Card Image 1">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Visit</h5>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card mb-4 clickable-card" onclick="window.location.href='https://education.nationalgeographic.org/resource/sign-language/'">
+                <img src="{% static 'images/visit2.png' %}" class="card-img-top" alt="Card Image 2">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Visit</h5>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card mb-4 clickable-card" onclick="window.location.href='https://www.nidcd.nih.gov/health/american-sign-language'">
+                <img src="{% static 'images/visit3.png' %}" class="card-img-top" alt="Card Image 3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Visit</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 clickable-card" onclick="window.location.href='https://www.aussiedeafkids.org.au/resources/language-and-communication/australian-sign-language/how-do-children-learn-sign-languages/'">
+                <img src="{% static 'images/visit4.png' %}" class="card-img-top" alt="Card Image 3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Visit</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 clickable-card" onclick="window.location.href='https://www.hearinghealthassoc.com/hearing-health-associates-va-blog/sign-language-and-its-importance-for-the-hearing-loss-community'">
+                <img src="{% static 'images/visit5.png' %}" class="card-img-top" alt="Card Image 3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Visit</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 clickable-card" onclick="window.location.href='https://www.ai-media.tv/knowledge-hub/insights/sign-language-alphabets/'">
+                <img src="{% static 'images/blog7.png' %}" class="card-img-top" alt="Card Image 3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Visit</h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .container {
+        padding-top: 20px;
+    }
+
+    .clickable-card {
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .clickable-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .card {
+        border: none;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    body::-webkit-scrollbar{
+        display: none;
+    }
+</style>
+{% endblock %}
