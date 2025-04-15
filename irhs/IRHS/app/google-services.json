@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "849008544188",
+    "firebase_url": "https://me-rain-water-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "me-rain-water",
+    "storage_bucket": "me-rain-water.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849008544188:android:c786fdf2f9d5d73ad2c3b9",
+        "android_client_info": {
+          "package_name": "com.project.irhs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCbunVSJj86FQKJwOf-gTbVozRFhfYdHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
