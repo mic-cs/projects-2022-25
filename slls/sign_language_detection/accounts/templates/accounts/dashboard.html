@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-5 display-4">Sign Language Learning System</h2>
+    {% if messages %}
+    <div class="alert-wrapper">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Introduction Section -->
+    <div class="card bg-dark text-light shadow-lg mb-4">
+        <div class="card-body">
+            <p class="card-text">
+                Welcome to Sign Language Learning System, your all-in-one
+destination for learning and mastering sign language! Designed for
+beginners and advanced learners alike, our platform offers a way to learn
+and practise American Sign Language (ASL) in real time which helps
+you to build the confidence to communicate effectively using sign
+language. Whether you&#39;re learning ASL for personal growth, professional
+use, or to connect with loved ones, we provide a supportive and inclusive
+environment tailored to your needs. Our user-friendly interface and
+advanced tools make learning accessible, fun, and effective for everyone.
+Start your journey now and unlock the beauty of sign language!
+        </div>
+    </div>
+
+    <!-- Test Section -->
+    <div class="card bg-dark text-light shadow-lg mb-4">
+        <div class="card-body text-center">
+            <h4 class="card-title">Test the Sign Language Detector</h4>
+            <p class="card-text">
+                Ready to see the detector in action? Click the button below to start testing.
+            </p>
+            <a href="{% url 'services' %}" class="btn btn-primary btn-lg mt-3">Start Now</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const alertElement = document.querySelector('.alert-wrapper .alert');
+    if (alertElement) {
+        setTimeout(function() {
+            alertElement.classList.remove('show');
+            alertElement.classList.add('hide');
+        }, 3000); // 3 seconds
+    }
+});
+</script>
+{% endblock %}

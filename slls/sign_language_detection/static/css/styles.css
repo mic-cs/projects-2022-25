@@ -1,0 +1,168 @@
+/* Base Styles */
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+              url("../images/background5.webp");
+  background-color: #1e1e1e;
+  background-size: cover; 
+  background-position: center; 
+  background-attachment: fixed; 
+  background-repeat: no-repeat; 
+  color: #e0e0e0;
+  overflow-x: hidden; 
+}
+
+
+.navbar {
+  background-color: #333;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #e0e0e0;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+  color: #007bff;
+}
+
+/* Dropdown Styles */
+.navbar-nav .dropdown-menu {
+  background-color: #2c2c2c; 
+  border: 1px solid #3a3a3a; 
+  color: #e0e0e0; 
+  white-space: nowrap; 
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: #e0e0e0; 
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  background-color: #007bff; 
+  color: #fff; 
+}
+
+/* Card Styles */
+.card {
+  background-color: #2c2c2c;
+  border: 1px solid #3a3a3a;
+}
+
+.card-body {
+  color: #e0e0e0;
+}
+
+/* Form Control Styles */
+.form-control {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #3a3a3a;
+  border-radius: 0.25rem;
+}
+
+.form-control::placeholder {
+  color: #a0a0a0;
+  opacity: 1;
+}
+
+.form-control:focus {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+.form-control:hover {
+  border-color: #007bff; 
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 0.25rem; 
+}
+
+.btn-success {
+  background-color: #28a745; 
+  border-color: #28a745; 
+}
+
+.btn-success:hover {
+  background-color: #218838; 
+  border-color: #1e7e34;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #333; 
+  color: #e0e0e0; 
+}
+
+footer a {
+  color: #007bff; 
+}
+
+footer a:hover {
+  color: #0056b3; 
+}
+
+/* Utility Classes */
+.bg-dark-custom {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("{% static 'images/bg5.jpg' %}");
+}
+
+.text-light-custom {
+  color: #e0e0e0; /* Custom light text color */
+}
+
+.text-primary {
+  color: #007bff; /* Primary text color */
+}
+
+.text-primary:hover {
+  color: #0056b3; /* Darker primary color on hover */
+}
+
+.text-center {
+  text-align: center; /* Center align text */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbar-nav {
+    text-align: center; /* Center align navbar links on small screens */
+  }
+}
+
+
+.tooltip-container {
+  height: 30px; /* Reserve space for the tooltip */
+  margin-bottom: 20px; /* Add some space below buttons */
+}
+
+#tooltip {
+  color: white;
+  font-size: 1.2rem;
+  display: none; /* Hidden by default */
+}
+
+/* Ensure the card remains in place */
+.card {
+  transition: none; /* Disable movement on hover */
+}
+
+
+.alert-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999; /* Makes sure it's on top of other elements */
+  width: 300px;  /* Control the width of the alert */
+  pointer-events: none; /* So it doesn't block interactions with other elements */
+}
+
+.alert {
+  pointer-events: all; /* Re-enable pointer events for the alert itself */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better visibility */
+}
+

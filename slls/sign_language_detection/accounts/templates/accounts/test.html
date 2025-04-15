@@ -1,0 +1,493 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Sign Language Detection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    :root {
+    --primary-color: #3b82f6;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --text-color: #1f2937;
+    --bg-color: #f9fafb;
+    --border-color: #e5e7eb;
+    --hover-color: #2563eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+              url("{% static 'images/background5.webp' %}");
+              background-color: #1e1e1e;
+  background-size: cover; 
+  background-position: center; 
+  background-attachment: fixed; 
+  background-repeat: no-repeat; 
+  color: #e0e0e0;
+  overflow-x: hidden; 
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+h1, h2 {
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+/* Video Section */
+.video-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* .video-container {
+    background: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+} */
+
+.video-wrapper {
+    /* aspect-ratio: 16/9;
+    background: #1f2937;
+    border-radius: 0.5rem;
+    overflow: hidden; */
+    position: relative;
+}
+
+.video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(110%);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Letters Grid */
+.letters-section {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.letters-grid {
+    max-height: 100px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.letters-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 0.75rem;
+}
+
+.letter {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.letter:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Preview Section */
+.preview-section {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+.preview-container {
+    aspect-ratio: 4/2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#letter-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Tooltip */
+.tooltip-container {
+    position: relative;
+    min-height: 2rem;
+}
+
+.tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    
+    .video-section {
+        order: -1;
+    }
+}
+
+.navbar {
+  background-color: #333;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #e0e0e0;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+  color: #007bff;
+}
+
+/* Dropdown Styles */
+.navbar-nav .dropdown-menu {
+  background-color: #2c2c2c; 
+  border: 1px solid #3a3a3a; 
+  color: #e0e0e0; 
+  white-space: nowrap; 
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: #e0e0e0; 
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  background-color: #007bff; 
+  color: #fff; 
+}
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-custom">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">Sign Language Learning System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Home</a>
+                    </li>
+                    <li class="nav-item"></li>
+                        <a class="nav-link" href="{% url 'blogs' %}">Articles</a>
+                    </li>
+                    <!-- <li class="nav-item"></li>
+                        <a class="nav-link" href="{% url 'letters' %}">Letters</a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'services' %}">Services</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'test' %}">Letters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'number_test_view' %}">Numbers</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'instruction' %}">Instructions</a>
+                    </li> -->
+                    
+                    
+                
+                    
+               
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- Left Section - Video Feed and Controls -->
+        <div class="video-section">
+            <!-- <h1>Sign Language Detection</h1> -->
+            
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <img id="video" src="" alt="Video Stream" style="display: none;">
+                    <div class="video-placeholder">
+                        <!-- <span>Camera Feed</span> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="predict-btn" class="btn btn-primary">
+                    <span class="btn-icon">▶</span>
+                    Start Prediction
+                </button>
+                <button id="stop-btn" class="btn btn-danger" disabled>
+                    <span class="btn-icon">⏸</span>
+                    Pause
+                </button>
+                <button id="restart-btn" class="btn btn-warning">
+                    <span class="btn-icon">⏹</span>
+                    Stop Prediction
+                </button>
+            </div>
+
+            <div class="tooltip-container">
+                <p id="tooltip" class="tooltip"></p>
+            </div>
+        </div>
+
+        <!-- Right Section - Letters and Preview -->
+        <div class="content-section">
+            
+            <div class="preview-section">
+                <h2>Preview</h2>
+                <div class="preview-container">
+                    <p id="default-message">Select any letter to view the sign</p>
+                    <img id="letter-image" src="" alt="Sign language preview" style="display: none;">
+                </div>
+                <div class="letters-section">
+                    <h2>Letters</h2>
+                    <div class="letters-grid">
+                        <div class="letters-list">
+                            <div class="letter" id="letter-A">A</div>
+                            <div class="letter" id="letter-B">B</div>
+                            <div class="letter" id="letter-C">C</div>
+                            <div class="letter" id="letter-D">D</div>
+                            <div class="letter" id="letter-E">E</div>
+                            <div class="letter" id="letter-F">F</div>
+                            <div class="letter" id="letter-G">G</div>
+                            <div class="letter" id="letter-H">H</div>
+                            <div class="letter" id="letter-I">I</div>
+                            <div class="letter" id="letter-J">J</div>
+                            <div class="letter" id="letter-K">K</div>
+                            <div class="letter" id="letter-L">L</div>
+                            <div class="letter" id="letter-M">M</div>
+                            <div class="letter" id="letter-N">N</div>
+                            <div class="letter" id="letter-O">O</div>
+                            <div class="letter" id="letter-P">P</div>
+                            <div class="letter" id="letter-Q">Q</div>
+                            <div class="letter" id="letter-R">R</div>
+                            <div class="letter" id="letter-S">S</div>
+                            <div class="letter" id="letter-T">T</div>
+                            <div class="letter" id="letter-U">U</div>
+                            <div class="letter" id="letter-V">V</div>
+                            <div class="letter" id="letter-W">W</div>
+                            <div class="letter" id="letter-X">X</div>
+                            <div class="letter" id="letter-Y">Y</div>
+                            <div class="letter" id="letter-Z">Z</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+// DOM Elements
+const startButton = document.getElementById('predict-btn');
+const stopButton = document.getElementById('stop-btn');
+const restartButton = document.getElementById('restart-btn');
+const videoElement = document.getElementById('video');
+const tooltip = document.getElementById('tooltip');
+const letterImage = document.getElementById('letter-image');
+const defaultMessage = document.getElementById('default-message');
+const letters = document.querySelectorAll('.letter');
+
+// Tooltip functionality
+function showTooltip(text) {
+    tooltip.innerText = text;
+    tooltip.style.display = 'block';
+}
+
+function hideTooltip() {
+    tooltip.style.display = 'none';
+}
+
+// Button event handlers
+startButton.onclick = function() {
+    startButton.disabled = true;
+    stopButton.disabled = false;
+    videoElement.style.display = 'block';
+    document.querySelector('.video-placeholder').style.display = 'none';
+    // Replace with your video feed URL
+    videoElement.src = "{% url 'video_feed' %}";
+};
+
+stopButton.onclick = function() {
+    stopButton.disabled = true;
+    startButton.disabled = false;
+    videoElement.style.display = 'none';
+    document.querySelector('.video-placeholder').style.display = 'flex';
+    // Replace with your stop feed endpoint
+    fetch("{% url 'stop_video_feed' %}");
+};
+
+restartButton.onclick = function() {
+    alert('Prediction is stopping...');
+    // Replace with your restart endpoint
+    fetch("{% url 'stop_and_restart_view' %}")
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'restarting') {
+                checkServerStatus();
+            }
+        });
+};
+
+function checkServerStatus() {
+    fetch("/dashboard")
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                setTimeout(checkServerStatus, 2000);
+            }
+        })
+        .catch(() => {
+            setTimeout(checkServerStatus, 2000);
+        });
+}
+
+// Button tooltips
+startButton.addEventListener('mouseenter', () => showTooltip('Click to start prediction'));
+startButton.addEventListener('mouseleave', hideTooltip);
+
+stopButton.addEventListener('mouseenter', () => showTooltip('Click to pause'));
+stopButton.addEventListener('mouseleave', hideTooltip);
+
+restartButton.addEventListener('mouseenter', () => showTooltip('Click to stop and restart prediction'));
+restartButton.addEventListener('mouseleave', hideTooltip);
+
+// Letter selection functionality
+letters.forEach(letter => {
+    letter.addEventListener('click', () => {
+        const letterValue = letter.textContent;
+        
+        // Update the preview section (replace with your image path logic)
+        letterImage.src = `{% static 'images/' %}${letterValue.toLowerCase()}.jpg`;
+        letterImage.style.display = 'block';
+        defaultMessage.style.display = 'none';
+        
+        // Add active state to selected letter
+        letters.forEach(l => l.classList.remove('active'));
+        letter.classList.add('active');
+    });
+});
+
+// Initialize the interface
+document.addEventListener('DOMContentLoaded', () => {
+    stopButton.disabled = true;
+    videoElement.style.display = 'none';
+});
+    </script>
+</body>
+</html>
