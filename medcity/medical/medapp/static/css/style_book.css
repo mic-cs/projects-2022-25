@@ -1,0 +1,52 @@
+
+.containers {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: left;
+}
+
+.appointment-details, .contact-info {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid rgb(41, 141, 199);
+    border-radius: 8px;
+    background: rgb(231, 243, 233);
+}
+
+
+
+p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+strong {
+    color: #004d40;
+}
+
+.btn {
+    display: inline-block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #004d40;
+}
+
+i {
+    margin-right: 8px;
+    color: #00796b;
+}
