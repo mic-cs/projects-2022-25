@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChefX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="{{ url_for('static', filename='/js/modules/jquery-3.7.1.min.js')}}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+</head>
+<body>
+    <!-- <header>
+      <a href="/">
+        <p class="logo">ChefX</p>
+      </a>
+      <div class="navRight">
+        <a href="/" class="active">Home</a>
+        <a href="/">How It Works</a>
+      </div>
+    </header> -->
+    <main>
+      <section class="home">
+        <div class="formSection">
+          <div class="line"></div>
+          <h3>What's on your mind?</h3>
+          <form id="recipe-form" enctype="multipart/form-data">
+              <div class="inputField">
+                <input type="text" name="text_input" placeholder="Create a recipe for.....">
+                <i class="fas fa-camera camIcon" onclick="toggleUploadImage()"></i>
+                <div class="uploadImage" id="uploadImage" style="display: none;">
+                  <div onclick="triggerFileInput()">
+                      <img id="displayImage" src="{{url_for('static',filename='images/jojo.jpg')}}" alt="Image" style="display: none; width: 200px; height: auto;">
+                      <input type="file" id="imageInput" name="image" accept="image/*" style="display: none;" onchange="showSelectedImage(event)">
+                      <i class="fas fa-plus"></i>
+                      Upload Image
+                  </div>
+                </div>
+              </div>
+              <button type="submit" name="button"> <i class="fas fa-star"></i> Generate</button>
+          </form>
+        </div>
+        <div class="featuredSection">
+          <div class="swiper-container">
+            <div class="swiper-wrapper" id="swiperWrapper">
+            </div>
+            <div class="swiper-button-next" style="color:white"></div>
+            <div class="swiper-button-prev" style="color:white"></div>
+            <div class="swiper-pagination"></div>
+            <style media="screen">
+            .swiper-pagination-bullet {
+              background-color: white;
+              }
+              .swiper-pagination-bullet-active {
+              background-color: white;
+              }
+            </style>
+          </div>
+        </div> 
+
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script>
+          const slides = [
+            {
+              img: "https://www.themealdb.com/images/media/meals/1544384070.jpg",
+              title: "Peanut Butter Cookies",
+              link: "recipe/52958"
+            },
+            {
+              img: "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg",
+              title: "Chicken Handi",
+              link: "recipe/52795"
+            },
+            {
+              img: "https://www.themealdb.com/images/media/meals/t8mn9g1560460231.jpg",
+              title: "Tunisian Lamb Soup",
+              link: "recipe/52972"
+            },
+            {
+              img: "https://www.themealdb.com/images/media/meals/wvqpwt1468339226.jpg",
+              title: "Mediterranean Pasta Salad",
+              link: "recipe/52777"
+            }
+          ];
+
+          const swiperWrapper = document.getElementById("swiperWrapper");
+
+          slides.forEach((slide) => {
+            const slideElement = document.createElement("div");
+            slideElement.classList.add("swiper-slide");
+            slideElement.innerHTML = `
+              <img src="${slide.img}" alt="${slide.title}">
+              <div class="sw-overlay">
+                <p class="sw-overlay-featured"><i class="fas fa-star"></i> Featured</p>
+                <div class="sw-overlay-desc">
+                  <p>${slide.title}</p>
+                  <a href="${slide.link}" target="_blank">
+                    <button type="button">Learn More</button>
+                  </a>
+                </div>
+              </div>
+            `;
+            swiperWrapper.appendChild(slideElement);
+          });
+
+          const swiper = new Swiper('.swiper-container', {
+            loop: true,
+            speed: 500,
+            effect: 'fade',
+            fadeEffect: {
+              crossFade: true,
+            },
+            autoplay: {
+              delay: 2000,
+              disableOnInteraction: false,
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true,
+            },
+            slidesPerView: 1,
+            spaceBetween: 20,
+          });
+        </script>
+
+      </section>
+      <section id="generatedOutput">
+          <div id="result" class="results" style="display: none;">
+            <div id="loader" class="loader-overlay" style="display: none;">
+              <div class="loader"></div>
+            </div>
+          </div>
+      </section>
+
+    </main>
+
+
+
+    <script>
+        window.onload = function() {
+          document.getElementById('recipe-form').reset();
+        };
+        function triggerFileInput() {
+            document.getElementById('imageInput').click();
+            }
+            function showSelectedImage(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var imgUrl = URL.createObjectURL(file);
+                var imgElement = document.getElementById('displayImage');
+                imgElement.src = imgUrl;
+                imgElement.style.display = 'block';
+            }
+        }
+
+        function toggleUploadImage() {
+          var uploadDiv = document.getElementById("uploadImage");
+          if (uploadDiv.style.display === "none") {
+            uploadDiv.style.display = "flex";
+          } else {
+            uploadDiv.style.display = "none";
+          }
+        }
+
+        $('#recipe-form').submit(function(event) {
+            event.preventDefault();
+
+            $('#result').stop().slideDown('slow', function() {
+                $('#loader').show();
+                $('html, body').animate({
+                scrollTop: $('#result').offset().top
+            }, 'slow');
+            });
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '/send',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    console.log(response);
+
+                    $('#loader').hide();
+
+                    $('#result').html(response.recipe);
+
+                    $('html, body').animate({
+                        scrollTop: $('#result').offset().top
+                    }, 'slow', function() {
+                        let windowHeight = $(window).height();
+                        $('#result').css('min-height', windowHeight + 'px');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+
+                    $('#loader').hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

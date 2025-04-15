@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChefX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/recipe.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="{{ url_for('static', filename='/js/modules/jquery-3.7.1.min.js')}}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+</head>
+<body>
+    <div id="loader-overlay" class="loader-overlay-rp" style="display: flex;">
+      <div class="loader"></div>
+    </div>
+    <header>
+      <a href="/">
+        <p class="logo">ChefX</p>
+      </a>
+      <div class="navRight">
+        <a href="/" class="active">Home</a>
+        <a href="/">How It Works</a>
+      </div>
+    </header>
+    <main>
+      <section class="recipeDisplay">
+        <div class="recipeDisplayHero">
+          <div class="imageSection">
+            <img src="" alt="" id="recipeImage">
+          </div>
+          <div class="detailSection">
+            <p class="sw-overlay-featured" style="width: fit-content"><i class="fas fa-star"></i> Featured</p>
+            <p class="name" id="recipeName"></p>
+            <p class="category"><i class="fas fa-utensils"></i> <span id="recipeCategory"></span></p>
+            <p class="region"><i class="fas fa-globe"></i> <span id="recipeRegion"></span></p>
+            <div class="tags" id="recipeTags"></div>
+          </div>
+        </div>
+        <div class="recipeDisplayDetails">
+          <div class="ingredients">
+            <p class="header">Ingredients.</p>
+            <div class="items" id="ingredientsList"></div>
+          </div>
+          <div class="instructions">
+            <p class="header">Directions.</p>
+            <div class="steps" id="recipeSteps"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="text/javascript">
+      function getRecipeIdFromUrl() {
+        const path = window.location.pathname;
+        const segments = path.split("/");
+        return segments[segments.length - 1];
+      }
+
+      async function fetchRecipe() {
+        const recipeId = getRecipeIdFromUrl();
+        if (!recipeId) return console.error("Recipe ID not found in URL");
+
+        const apiUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if (data.meals) {
+
+                displayRecipe(data.meals[0]);
+                document.getElementById("loader-overlay").style.display = "none";
+            } else {
+                console.error("Recipe not found");
+            }
+        } catch (error) {
+            console.error("Error fetching recipe:", error);
+        }
+      }
+
+      function displayRecipe(meal) {
+        document.getElementById("recipeImage").src = meal.strMealThumb;
+        document.getElementById("recipeName").innerText = meal.strMeal;
+        document.getElementById("recipeCategory").innerText = meal.strCategory;
+        document.getElementById("recipeRegion").innerText = meal.strArea;
+
+        const tagsContainer = document.getElementById("recipeTags");
+        meal.strTags && meal.strTags.split(',').forEach(tag => {
+          const tagElement = document.createElement("p");
+          tagElement.innerHTML = `<i class="fas fa-tags"></i> ${tag}`;
+          tagsContainer.appendChild(tagElement);
+        });
+
+        const ingredientsList = document.getElementById("ingredientsList");
+        for (let i = 1; i <= 20; i++) {
+          const ingredient = meal[`strIngredient${i}`];
+          const measure = meal[`strMeasure${i}`];
+          if (ingredient && ingredient.trim() !== "") {
+            const ingredientElement = document.createElement("div");
+            ingredientElement.classList.add("item");
+            ingredientElement.innerHTML = `
+              <p class="itemQ">${measure || ''}</p>
+              <p class="itemN">${ingredient}</p>
+            `;
+            ingredientsList.appendChild(ingredientElement);
+          }
+        }
+
+        const recipeSteps = document.getElementById("recipeSteps");
+        meal.strInstructions.split('\n').forEach((step, index) => {
+          const stepElement = document.createElement("div");
+          stepElement.classList.add("step");
+          stepElement.innerHTML = `
+            <p class="stepN">${index + 1}.</p>
+            <p class="stepD">${step}</p>
+          `;
+          recipeSteps.appendChild(stepElement);
+        });
+      }
+      window.onload = fetchRecipe;
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+.recipeDisplay {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 50px;
+  margin-bottom: 100px;
+}
+
+.recipeDisplayHero {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.recipeDisplayHero .detailSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 700px;
+  background-color: rgba(0, 0, 0, 0.02);
+  height: 670px;
+  padding: 100px;
+  justify-content: center;
+  z-index: 300;
+}
+
+.recipeDisplayHero .detailSection i {
+  margin-right: 10px;
+}
+
+.recipeDisplayHero .detailSection .name {
+  font-family: Os;
+  font-size: 60px;
+}
+
+.recipeDisplayHero .detailSection .category {
+  font-family: Or;
+  font-size: 20px;
+}
+
+.recipeDisplayHero .detailSection .region {
+  font-family: Or;
+  font-size: 20px;
+}
+
+.recipeDisplayHero .detailSection .tags {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: Or;
+  gap: 20px;
+}
+
+.recipeDisplayHero .detailSection .tags p {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 5px 15px 5px 15px;
+  border-radius: 50px;
+}
+
+.recipeDisplayHero .imageSection {
+  height: 590px;
+  width: 600px;
+  overflow: hidden;
+  margin-right: -60px;
+  margin-top: -20px;
+  z-index: 500;
+}
+
+.recipeDisplayHero .imageSection img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.recipeDisplayDetails {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.recipeDisplayDetails .ingredients {
+  min-height: 400px;
+  background-color: rgb(237, 226, 222);
+  padding-left: 150px;
+  padding-top: 30px;
+  padding-bottom: 40px;
+}
+
+.recipeDisplayDetails .ingredients .header {
+  font-family: Ob;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.recipeDisplayDetails .ingredients .items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.recipeDisplayDetails .ingredients .item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.recipeDisplayDetails .ingredients .item .itemQ {
+  width: 150px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  font-family: Ob;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.recipeDisplayDetails .ingredients .item .itemN {
+  min-width: 300px;
+  max-width: 400px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  font-family: Or;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+
+.recipeDisplayDetails .instructions {
+  min-height: 600px;
+  padding-left: 30px;
+  padding-right: 20px;
+  padding-top: 30px;
+}
+
+.recipeDisplayDetails .instructions .header {
+  font-family: Ob;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.recipeDisplayDetails .instructions .steps {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.recipeDisplayDetails .instructions .step {
+  display: flex;
+  flex-direction: row;
+}
+
+.recipeDisplayDetails .instructions .step .stepN {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  font-family: Ob;
+  font-size: 50px;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.recipeDisplayDetails .instructions .step .stepD {
+  min-height: 80px;
+  width: 700px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  font-family: Or;
+  font-size: 16px;
+}
+
+.loader-overlay-rp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 4000;
+  background-color: rgba(255,255,255,1);
+}
+
+@media (max-width: 1300px) {
+
+}
+
+@media (max-width: 992px) {
+
+}
+
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 576px) {
+
+
+}
+
+@media (max-width: 420px) {
+
+}
